@@ -1,0 +1,181 @@
+/*
+Responsivenator: v2.00;
+Author: Luisangel Marquez @lma_90;
+*/
+
+*, *:before, *:after  {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+img, audio, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/*  Grid Global Variables  ========================================*/
+
+$gridWidth: 100%;/*Total width for grid*/
+$maxWidth: 800px;/*Max width for grid*/
+$minWidth: none;/*Min width for grid*/
+$width: 100%;/*Total width for columns*/
+$totalColumns: 12; /*Total number of columns*/
+$columnGutter: 1.5%;/*Column gutter left/right*/
+$columnMargin: $columnGutter*2;/*Column gutter left/right*/
+$columnMarginBottom: 25px;/*Margin bottom applied to columns*/
+$totalColumnMargin: 0 $columnGutter $columnMarginBottom $columnGutter;/*Column margin*/
+
+/*  Grid  ========================================================*/
+
+@mixin grid {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: $gridWidth;
+  height: auto;
+  max-width: $maxWidth;
+  min-width: $minWidth;
+  letter-spacing: -0.26em;
+  font-size: 0;
+
+  &:before,
+  &:after {
+      content:"";
+      display:table;
+  }
+  &:after {
+      clear:both;
+  }
+}
+
+/*Opera fix*/
+
+@mixin grid-opera {
+    .opera:-o-prefocus, .grid {
+      word-spacing: -0.43em;
+      letter-spacing: normal;
+    }
+}
+
+/* Columns setup  ================================================*/
+
+@mixin columnSetUp($setUp) {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 16px;
+
+    @if $setUp ==  grid-level {
+      letter-spacing: -0.43em;
+    }
+    @if $setUp ==  grid-level-opera {
+      word-spacing: -0.43em;
+      letter-spacing: normal;
+    }
+    @else if $setUp ==  column-level {
+      letter-spacing: normal;
+      word-spacing: normal;
+    }
+}
+
+// Column Loop with Classes
+
+// @for $i from 1 through $totalColumns {
+//   .col-#{$i} {
+//     width: $width/($i) - $columnMargin;
+//     @include columnSetUp(column-level);
+//   }
+// }
+
+// Columns mixin without classes or to be included at breakpoints
+
+// Mixin for columns
+
+@mixin col($columns, $margin: $columnMargin, $customWidth: '$x', $setUp: 'column-level') {
+  
+  @if $setUp == grid-level {
+      @include columnSetUp(grid-level);
+  }
+  @else if $setUp == column-level {
+      @include columnSetUp(column-level);
+  }
+  
+  @else if $setUp == grid-level-opera {
+      @include columnSetUp(grid-level-opera);
+  }
+  
+  @else if $margin == $columnMargin {
+      width: $width/$i - $margin;
+  }
+
+  @else if $customWidth == $x {
+      width: $width/$i - $customWidth;
+  }
+
+  @for $i from 1 through $totalColumns {
+    @if $columns == $i {
+      position: relative;
+      width: $width/$i - $margin;
+      margin: 0 $margin/2 $columnMarginBottom $margin/2;
+    }
+  }
+}
+
+@mixin col-custom($columns: '$columns', $margin: $columnMargin, $setUp: 'column-level') {
+  
+  @if $setUp == grid-level {
+      @include columnSetUp(grid-level);
+  }
+  @else if $setUp == column-level {
+      @include columnSetUp(column-level);
+  }
+  
+  @else if $setUp == grid-level-opera {
+      @include columnSetUp(grid-level-opera);
+  }
+  
+  @else if $margin == $columnMargin {
+      width: $width/$i - $margin;
+  }
+ 
+  @if $columns == $columns {
+    width: $columns - $margin;
+    position: relative;
+    margin: 0 $margin/2 $columnMarginBottom $margin/2;
+  } 
+}
+
+
+@mixin origin($direction: 'positive', $columns: '$totalColumns', $columnsInRow: '$x') {
+  
+  @if $direction == positive {
+      $direction: #{'+'};
+  }
+  @else if $direction == negative {
+      $direction: #{'-'};
+  }
+
+  @for $i from 1 through $totalColumns {
+
+    @if $columns == $i {
+      $origin-index: $width/$i;
+      left: #{$direction}#{$origin-index*$columnsInRow};
+    }
+  } 
+}
+
+
+@mixin origin-col-custom($direction: 'positive', $position: '$position') {
+  
+  @if $direction == positive {
+      $direction: #{'+'};
+  }
+  @else if $direction == negative {
+      $direction: #{'-'};
+  }
+
+  left: #{$direction}#{$position};
+
+}
