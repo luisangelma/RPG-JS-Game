@@ -4,6 +4,7 @@
 var selectedCharacter = null;
 var player = null;
 var enemy = null;
+var game = null;
 var gameStatus = false;
 
 // Element variables
@@ -14,16 +15,27 @@ var characterThree = document.getElementById('character-three');
 var characters = [characterOne, characterTwo, characterThree];
 var playerName = document.getElementById('player-name');
 var startGameBtn = document.getElementById('start-game-button');
-var battleInfo = document.getElementById('battle-info');
-var battlePlayer = document.getElementById('battlePlayer');
-var battleEnemy = document.getElementById('battleEnemy');
+var attackBtn = document.getElementById('attack-button');
+var battleInfo = document.getElementById('battle-arena');
+var battlePlayer = document.getElementById('battle-player');
+var battlePlayerHp = document.getElementById('player-hp');
+var battlePlayerAvatar = document.getElementById('player-avatar');
+var battleEnemy = document.getElementById('battle-enemy');
+var battleEnemyHp = document.getElementById('enemy-hp');
+var battleEnemyAvatar = document.getElementById('enemy-avatar');
 
 var playerImages = ['images/char1.png', 'images/char2.png', 'images/char3.png'];
-var enemyImages = ['images/enemy1.png', 'images/enemy2.png', 'images/enemy3.png'];
 
+var enemies = [
+	{name: 'Ancient Dragon', avatar: 'images/enemy1.png'}, 
+	{name: 'Robotron', avatar: 'images/enemy2.png'}, 
+	{name: 'Mighty Centipede', avatar: 'images/enemy3.png'}
+];
 
-console.log(playerImages[0]);
-console.log(characters[0]);
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 /* Main Objects */
 
 var Player = function(name) {
@@ -33,21 +45,16 @@ var Player = function(name) {
 	this.type = null;
 	this.avatar = null;
 
-	this.setType = function() {
+	this.setIdentity = function() {
 		for (var i = 0; i < characters.length; i++) {
-			if(selectedCharacter == characters[i]) {
-				this.type = 'player';
+			if(selectedCharacter === characters[i]) {
+				self.type = 'player';
+				self.avatar = playerImages[i];
 			}
 		}
 	};
 
-	this.setAvatar = function() {
-		for (var i = 0; i < characters.length; i++) {
-			if (selectedCharacter === characters[i]) {
-				self.avatar = playerImages[i];
-			}
-		}
-	};	
+	this.setIdentity();
 };
 
 var Enemy = function() {
@@ -55,24 +62,62 @@ var Enemy = function() {
 	this.name = '';
 	this.hp = 100;
 	this.type = 'enemy';
+	this.avatar = null;
+
+	this.setIdentity = function() {
+		var ramdonInt = getRandomInt(0, enemies.length - 1);
+		for (var i = 0; i < enemies.length; i++) {
+			if (ramdonInt === i) {
+				self.name = enemies[i].name;
+				self.avatar = enemies[i].avatar;
+			}
+		}
+	};
+
+	this.setIdentity();
+
+	console.log(this.name);
+	console.log(this.avatar);
+};
+
+var Attack = function() {
+	var self = this;
+
+	this.generateAttackPower = function() {
+		var ramdonInt = getRandomInt(10, 30);
+		return ramdonInt;
+	};
+
+	this.processAtack = function(attacker, victim) {
+		victim.hp -= self.generateAttackPower();
+		console.log(attacker.name + ' attacked ' + victim.name);
+		console.log(victim.hp);
+	};
 }
+
+/* Main Functions */
 
 var Game = function(player, enemy) {
 	var self = this;
 	this.player = player;
 	this.enemy = enemy;
-}
 
-/* Main Function */
+	this.generateCharacters= function() {
+		battlePlayerAvatar.src = player.avatar;
+		battlePlayerHp.innerHTML = player.hp;
+		battleEnemyAvatar.src = enemy.avatar;
+		battleEnemyHp.innerHTML = enemy.hp;
+	};
+
+	this.generateCharacters();
+};
 
 var initGame = function() {
-	var player = new Player(playerName.value);
-	var enemy = new Enemy();
-	var game = new Game(player, enemy);
-
-	player.setAvatar();
-	console.log(player.avatar);
-}
+	player = new Player(playerName.value);
+	enemy = new Enemy();
+	game = new Game(player, enemy);
+	game.prototype = new Attack();
+};
 
 /* Event listeners*/
 
@@ -103,4 +148,11 @@ characterThree.addEventListener('click', function(){
 startGameBtn.addEventListener('click', function(){
 	gameStatus = true;
 	initGame();
+	console.log(player);
+});
+
+attackBtn.addEventListener('click', function(){
+	gameStatus = true;
+	game.prototype.processAtack(enemy, player);
+	console.log(player);
 });
