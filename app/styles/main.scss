@@ -1,6 +1,14 @@
 @import "_normalize";
+@import "../../bower_components/bourbon/app/assets/stylesheets/_bourbon";
 @import "_grid";
 @import "_breakpoints";
+@import "_settings";
+@import "_type";
+@import "_header";
+
+// Sections
+
+@import "_home-selection";
 
 $padding: 20px;
 
@@ -14,4 +22,8 @@ $padding: 20px;
 
 .col-2 {
 	@include col(2);
+}
+
+.col-3 {
+	@include col(3);
 }

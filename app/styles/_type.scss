@@ -1,0 +1,71 @@
+
+// Type reset
+
+$baseFontSize: 16px;
+$lineHeight: 1.25em;
+
+// Main fonts
+
+$headlineFont: 'Orbitron', sans-serif;
+$mainFont: 'Open Sans', sans-serif;
+
+// Font sizes
+
+	// Headlines
+	$h1Size: 60px;
+	$h2Size: 48px;
+	$h3Size: 40px;
+	$h4Size: 34px;
+	$h5Size: 28px;
+	$h6Size: 22px;
+	
+	// UI Headlines
+	$ui-h1Size: 48px;
+	$ui-h2Size: 42px;
+	$ui-h3Size: 36px;
+	$ui-h4Size: 30px;
+	$ui-h5Size: 26px;
+	$ui-h6Size: 20px;
+
+	// Paragraph
+	$pSize: 20px;
+
+	// UI Components (a, li, buttons, ...)
+	$uiSize: 20px;
+	$uiMediumSize: 16px;
+	$uiSmallSize: 12px;
+
+// PX to EM function
+
+@function px-to-em($target, $context: $baseFontSize) {
+	@return $target / $context + 0em;
+}
+
+// Main Font Mixin
+
+@mixin font($size: $size, $font: $font, $margin: 0 0 $lineHeight 0) {
+	font-family: $font;
+	font-size: px-to-em($size);
+	line-height: $lineHeight;
+	margin: $margin;
+}
+
+h1 {
+	@include font($h1Size, $headlineFont);
+}
+h2 {
+	@include font($h2Size, $headlineFont);
+}
+h3 {
+	@include font($h3Size, $headlineFont);
+}
+h4 {
+	@include font($h4Size, $headlineFont);
+}
+h5 {
+	@include font($h5Size, $headlineFont);
+}
+
+p, input, li, a {
+	@include font($pSize, $mainFont);
+} 

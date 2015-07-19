@@ -1,0 +1,7 @@
+
+// Main header styles
+
+header {
+	@include col(1);
+	padding: $padding;
+}

@@ -1,0 +1,16 @@
+
+
+.selection-character--character {
+	background: #c5c5c5;
+
+	&.active {
+		background: skyblue;
+	}
+
+	img {
+		padding: $padding;
+		display: block;
+		margin: 0 auto;
+		max-width: 160px;
+	}
+}

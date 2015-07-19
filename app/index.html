@@ -11,6 +11,9 @@
     <!-- bower:css -->
     <!-- endbower -->
     <!-- endbuild -->
+    <!-- Google Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
@@ -22,6 +25,55 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+
+
+    <div class="grid">
+      
+      <header>
+        <h1>JS RPG Adventure</h1>
+      </header>
+
+      <section class="selection-characters">
+        <div id="character-one" class="col-3 selection-character--character">
+          <img src="images/char1.png" alt="Character Image">
+        </div>
+        <div id="character-two" class="col-3 selection-character--character">
+          <img src="images/char2.png" alt="Character Image">
+        </div>
+        <div id="character-three" class="col-3 selection-character--character">
+          <img src="images/char3.png" alt="Character Image">
+        </div>
+        <div class="col-1 info">
+          <p>Please select your character</p>
+        </div>
+        <div class="col-1">
+          <input id="player-name" type="text" class="input" placeholder="Name your character">
+          <input id="start-game-button" type="button" class="button" value="Start Game">
+        </div>
+      </section>
+
+      <section class="battle-arena">
+        <div class="battle-status">
+          <p id="battle-info" class="battle-message"></p>
+        </div>
+
+        <div id="battle-player" class="battle-player">
+          <p id="player-hp"></p>
+          <img src="" alt="Player">
+        </div>
+
+        <div id="battle-enemy" class="battle-enemy">
+          <p id="enemy-hp"></p>
+          <img src="" alt="Enemy">
+        </div>
+      </section>
+
+      <footer>
+        
+      </footer>
+
+
+    </div>
 
     
 
