@@ -61,7 +61,7 @@ var Character = function(type, hp) {
 				}
 			}
 		} else if (type == 'enemy') {
-			var enemyTurn = 0;
+			self.enemyTurn = 1;
 			var ramdonInt = getRandomInt(0, enemies.length - 1);
 			for (var i = 0; i < enemies.length; i++) {
 				if (ramdonInt === i) {
@@ -105,14 +105,14 @@ var Game = function() {
 	this.processAttack = function(attacker, victim) {
 		var ramdonMissed = getRandomInt(1, 3);
 
-		if (ramdonMissed == 3) {
-			battleInfo.innerHTML = attacker.name + ' missed ' + victim.name;
-		} else {
+		// if (ramdonMissed == 3) {
+		// 	battleInfo.innerHTML = attacker.name + ' missed ' + victim.name;
+		// } else {
 			var ramdonAttackPower = attacker.generateAttackPower();
 			victim.hp -= ramdonAttackPower;
 			battleInfo.innerHTML = attacker.name + ' attacked ' + victim.name + ' for ' + ramdonAttackPower + ' attack power';
 			victim.displayHealth();
-		}
+		// }
 
 		self.checkHealth();
 	};
@@ -122,7 +122,13 @@ var Game = function() {
 			battleInfo.innerHTML = player.name + ' killed ' + enemy.name;
 			self.ramdonHpBonus();
 			enemy = new Character('enemy', 100);
-		} else if (player.hp <= 0) {
+			enemy.enemyTurn++;
+			console.log(enemy.enemyTurn);
+		} else if (enemy.hp <= 0 & enemy.enemyTurn === 2) {
+			enemy = new Character('enemy', 100);
+			enemy.enemyTurn++;
+			console.log(enemy.enemyTurn);
+		}else if (player.hp <= 0) {
 			battleInfo.innerHTML = enemy.name + ' killed ' + player.name;
 			player.hp = 0;
 			player.displayHealth();
@@ -142,9 +148,9 @@ var Game = function() {
 				battleBonus.innerHTML = '';
 			}, 3000);
 		}
-
-		console.log(x);
 	};
+
+	console.log(enemy.enemyTurn);
 };
 
 var initGame = function() {
@@ -177,7 +183,7 @@ playerThree.addEventListener('click', function(){
 startGameBtn.addEventListener('click', function(){
 	initGame();
 	console.log(typeof player.hp);
-});
+}, false);
 
 attackBtn.addEventListener('click', function(){
 	game.processAttack(player, enemy);
@@ -186,4 +192,4 @@ attackBtn.addEventListener('click', function(){
 		game.processAttack(enemy, player);
 		attackBtn.disabled = false;
 	}, 1000);
-});
+}, false);
