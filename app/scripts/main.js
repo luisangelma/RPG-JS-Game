@@ -5,7 +5,7 @@ var selectedCharacter = null;
 var player = null;
 var enemy = null;
 var game = null;
-var gameStatus = false;
+var gameStatus = null;
 
 // Element variables
 
@@ -16,7 +16,7 @@ var characters = [characterOne, characterTwo, characterThree];
 var playerName = document.getElementById('player-name');
 var startGameBtn = document.getElementById('start-game-button');
 var attackBtn = document.getElementById('attack-button');
-var battleInfo = document.getElementById('battle-arena');
+var battleInfo = document.getElementById('battle-info');
 var battlePlayer = document.getElementById('battle-player');
 var battlePlayerHp = document.getElementById('player-hp');
 var battlePlayerAvatar = document.getElementById('player-avatar');
@@ -41,7 +41,8 @@ function getRandomInt(min, max) {
 var Player = function(name) {
 	var self = this;
 	this.name = name;
-	this.hp = 100;
+	this.hp = 500;
+	this.hpElement = battlePlayerHp;
 	this.type = null;
 	this.avatar = null;
 
@@ -55,12 +56,15 @@ var Player = function(name) {
 	};
 
 	this.setIdentity();
+		console.log(this.hp);
+
 };
 
 var Enemy = function() {
 	var self = this;
 	this.name = '';
 	this.hp = 100;
+	this.hpElement = battleEnemyHp;
 	this.type = 'enemy';
 	this.avatar = null;
 
@@ -75,9 +79,6 @@ var Enemy = function() {
 	};
 
 	this.setIdentity();
-
-	console.log(this.name);
-	console.log(this.avatar);
 };
 
 var Attack = function() {
@@ -89,9 +90,14 @@ var Attack = function() {
 	};
 
 	this.processAtack = function(attacker, victim) {
-		victim.hp -= self.generateAttackPower();
-		console.log(attacker.name + ' attacked ' + victim.name);
-		console.log(victim.hp);
+		var ramdonHit = getRandomInt(1, 3);
+		if (ramdonHit === 3) {
+			battleInfo.innerHTML = attacker.name + ' attempted an attack against ' + victim.name + ' but missed';
+		} else {
+			victim.hp -= self.generateAttackPower();
+			battleInfo.innerHTML = attacker.name + ' attacked ' + victim.name + ' for ' + self.generateAttackPower() + ' attack power';
+			victim.hpElement.innerHTML = victim.hp;
+		}
 	};
 }
 
@@ -102,14 +108,18 @@ var Game = function(player, enemy) {
 	this.player = player;
 	this.enemy = enemy;
 
-	this.generateCharacters= function() {
+	this.generatePlayer= function() {
 		battlePlayerAvatar.src = player.avatar;
 		battlePlayerHp.innerHTML = player.hp;
+	};
+
+	this.generateEnemy= function() {
 		battleEnemyAvatar.src = enemy.avatar;
 		battleEnemyHp.innerHTML = enemy.hp;
 	};
 
-	this.generateCharacters();
+	this.generatePlayer();
+	this.generateEnemy();
 };
 
 var initGame = function() {
@@ -117,7 +127,24 @@ var initGame = function() {
 	enemy = new Enemy();
 	game = new Game(player, enemy);
 	game.prototype = new Attack();
-};
+	gameStatus = true;
+
+	this.checkGameStatus = function() {
+		if (player.hp <= 0) {
+			battleInfo.innerHTML = enemy.name + ' killed ' + player.name;
+			gameStatus = false;
+		} else if (enemy.hp <= 0) {
+			battleInfo.innerHTML = player.name + ' killed ' + enemy.name;
+			gameStatus = true;
+			enemy = new Enemy();
+			console.log(game.generateEnemy());
+		}
+	};
+	
+	this.checkGameStatus();
+}
+
+
 
 /* Event listeners*/
 
@@ -126,7 +153,6 @@ characterOne.addEventListener('click', function(){
 	characterOne.className = "col-3 selection-character--character active";
 	characterTwo.className = "col-3 selection-character--character";
 	characterThree.className = "col-3 selection-character--character";
-	console.log(selectedCharacter);
 }, false);
 
 characterTwo.addEventListener('click', function(){
@@ -134,7 +160,6 @@ characterTwo.addEventListener('click', function(){
 	characterOne.className = "col-3 selection-character--character";
 	characterTwo.className = "col-3 selection-character--character active";
 	characterThree.className = "col-3 selection-character--character";
-	console.log(selectedCharacter);
 }, false);
 
 characterThree.addEventListener('click', function(){
@@ -142,17 +167,19 @@ characterThree.addEventListener('click', function(){
 	characterOne.className = "col-3 selection-character--character";
 	characterTwo.className = "col-3 selection-character--character";
 	characterThree.className = "col-3 selection-character--character active";
-	console.log(selectedCharacter);
 }, false);
 
 startGameBtn.addEventListener('click', function(){
-	gameStatus = true;
 	initGame();
-	console.log(player);
 });
 
 attackBtn.addEventListener('click', function(){
-	gameStatus = true;
-	game.prototype.processAtack(enemy, player);
-	console.log(player);
+	if(gameStatus) {
+		game.prototype.processAtack(player, enemy);
+		checkGameStatus();
+		setTimeout(function(){
+			game.prototype.processAtack(enemy, player);
+			checkGameStatus();
+		}, 1000);
+	}
 });
