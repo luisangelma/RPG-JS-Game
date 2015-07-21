@@ -8,23 +8,6 @@
 
 // Sections
 
+@import "_global";
 @import "_home-selection";
 @import "_battle-arena";
-
-$padding: 20px;
-
-.grid {
-	@include grid;
-}
-
-.col-1 {
-	@include col(1);
-}
-
-.col-2 {
-	@include col(2);
-}
-
-.col-3 {
-	@include col(3);
-}

@@ -1,17 +1,81 @@
 
 
-.selection-character--character {
-	background: #c5c5c5;
+.home-selection {
+	position: fixed;
+	top: 50%;
+	@include transform(translateY(-50%));
+	left: 0;
+	width: 100%;
+	height: auto;
+	background-size: cover;
 
-	&.active {
-		background: skyblue;
+	.input {
+		width: 400px;
+		display: block;
+		margin: 0 auto $margin*2 auto;
+		border: none;
+		border-bottom: 1px solid $darkBlue;
+		padding: $padding 0 $padding/4 0;
+		outline: none;
+		text-align: center;
+		line-height: 1.8em;
+		font-size: 1.8em;
+		font-weight: bold;
 	}
 
-	img {
-		padding: $padding;
+	.button {
+		outline: none;
+		background: $yellow;
+		border: none;
+		margin: $padding auto 0 auto;
+		width: 200px;
 		display: block;
+		padding: $padding/1.5 $padding $padding/2 $padding;
+		border-radius: 5px;
+		color: $darkBlue;
+		line-height: 1.6em;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+}
+
+header {
+	padding: $padding 0 0 0;
+
+	h1 {
+		text-align: center;
+	}
+}
+
+.selection-character--character {
+	position: relative;
+
+
+	&.active .character-wrapper {
+		background: $yellow;
+	}
+
+	.character-wrapper {
 		margin: 0 auto;
-		max-width: 160px;
+		position: relative;
+		width: 250px;
+		height: 250px;
+		border-radius: 50%;
+		overflow: hidden;
+		background: $darkBlue;
+		@include transition(all .3s ease);
+
+		img {
+			padding: $padding;
+			display: block;
+			margin: 0 auto;
+			max-width: 160px;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 50%;
+			@include transform(translateY(-50%));
+		}
 	}
 }
 

@@ -26,61 +26,66 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-
-    <div class="grid">
-      
-      <header>
-        <h1>JS RPG Adventure</h1>
-      </header>
-
-      <section class="selection-characters">
+    <section class="home-selection">
+      <div class="grid">
+        <header>
+          <h1>JS RPG Adventure</h1>
+        </header>
         <div id="character-one" class="col-3 selection-character--character">
-          <img src="images/char1.png" alt="Character Image">
+          <div class="character-wrapper">
+            <img src="images/char1.png" alt="Character Image">
+          </div>
         </div>
         <div id="character-two" class="col-3 selection-character--character">
-          <img src="images/char2.png" alt="Character Image">
+          <div class="character-wrapper">
+            <img src="images/char2.png" alt="Character Image">
+          </div>
         </div>
         <div id="character-three" class="col-3 selection-character--character">
-          <img src="images/char3.png" alt="Character Image">
+          <div class="character-wrapper">
+            <img src="images/char3.png" alt="Character Image">
+          </div>
         </div>
-        <div class="col-1 info">
+   <!--      <div class="col-1 info">
           <p>Please select your character</p>
-        </div>
+        </div> -->
         <div class="col-1">
           <input id="player-name" type="text" class="input" placeholder="Name your character">
           <input id="start-game-button" type="button" class="button" value="Start Game">
         </div>
-      </section>
+        </div><!-- / grid -->
+    </section>
 
-      <section class="battle-arena">
-        <div class="col-1 battle-status">
-          <p id="battle-bonus" class="battle-message"></p>
-          <p id="battle-info" class="battle-message"></p>
-        </div>
+      <section id="battle-arena" class="battle-arena">
+        <div class="grid battle-grid">
+          <div class="col-1 battle-status">
+            <p id="battle-info" class="battle-message info"></p>
+            <p id="battle-bonus" class="battle-message bonus"></p>
+          </div>
 
-        <div id="battle-player" class="battle-player">
-          <p id="player-hp"></p>
-          <img id="player-avatar" class="chuchumeco" alt="Player">
-        </div>
+          <div id="battle-player" class="battle-player">
+            <div class="battle-player--wrapper">
+              <p class="character-hp" id="player-hp"></p>
+              <img id="player-avatar" alt="Player">
+            </div>
+          </div>
 
-        <div id="battle-enemy" class="battle-enemy">
-          <p id="enemy-hp"></p>
-          <img id="enemy-avatar" alt="Enemy">
-        </div>
+          <div id="battle-enemy" class="battle-enemy">
+            <div class="battle-enemy--wrapper">
+              <p class="character-hp" id="enemy-hp"></p>
+              <img id="enemy-avatar" alt="Enemy">
+            </div>
+          </div>
 
-        <div class="col-1">
-           <input id="attack-button" type="button" class="button" value="Attack">
-        </div>
+          <div class="attack-button--wrapper">
+             <input id="attack-button" type="button" class="button" value="Attack">
+          </div>
+        </div><!-- / grid -->
       </section><!-- / battle arena -->
 
       <footer>
         
       </footer>
-
-
-    </div><!-- / grid -->
-
-    
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->

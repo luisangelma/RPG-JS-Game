@@ -1,8 +1,111 @@
 
+.battle-arena {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	right: 0;
+	background: url(../images/battle-arena.jpg) center center no-repeat;
+	background-size: cover;
+	@include transform(translateX(100%));
+	@include transition(all 1s ease);
+
+
+	&.active {
+		@include transform(translateX(0%));
+	}
+}
+
 .battle-player {
 	@include col(2);
+	height: 100%;
+	
+	.battle-player--wrapper {
+		position: absolute;
+		bottom: 100px;
+		left: 50px;
+		display: block;
+	}
 }
 
 .battle-enemy {
 	@include col(2);
+	height: 100%;
+
+	.battle-enemy--wrapper {
+		position: absolute;
+		top: 100px;
+		right: 50px;
+		display: block;
+	}
+}
+
+.attack-button--wrapper {
+	position: absolute;
+	bottom: 60px;
+	left: 0;
+	width: 100%;
+	height: auto;
+	@include columnSetUp(column-level);
+
+	.button {
+		outline: none;
+		background: $yellow;
+		border: none;
+		margin: $padding auto 0 auto;
+		width: 200px;
+		display: block;
+		padding: $padding/1.5 $padding $padding/2 $padding;
+		border-radius: 5px;
+		color: $darkBlue;
+		line-height: 1.6em;
+		font-weight: bold;
+		text-transform: uppercase;
+		@include transition(opacity .25s ease);
+
+		&.inactive {
+			opacity: .5;
+		}
+	}
+}
+
+.character-hp {
+	color: $darkBlue;
+	@include font($uiSize, $headlineFont);
+	font-weight: bold;
+	width: 140px;
+	background: #fff;
+	padding: $padding/1.5 $padding/2 $padding/2 $padding/2;
+	text-align: center;
+	border-radius: 10px;
+	margin: 0 auto $margin*2 auto;
+}
+
+.battle-status {
+	position: absolute;
+	top: 100px;
+	left: 50px;
+	
+	.battle-message {
+		border-radius: 10px;
+		padding: $padding $padding*2;
+		background: #fff;
+		color: $darkBlue;
+		font-weight: bold;
+		width: 40%;
+		display: block;
+		position: relative;
+		@include transition(all .25s ease);
+
+		&.bonus {
+			opacity: 0;
+			background: $blue;
+			color: #fff;
+			
+			&.active {
+				opacity: 1;
+				@include transition-delay(.25s);
+			}
+		}
+	}
 }
